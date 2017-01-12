@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Web Speech API Sample</title>
+<style type="text/css">
+textarea {
+  font-size: 12pt;
+  line-height: 1.5em;
+  width: 35em;
+  height: 6em;
+}
+button {
+  font-size: 12pt;
+  width: 6em;
+  height: 2em;
+  margin-right: 1em;
+}
+</style>
+</head>
+
+<body onload="init();">
+<div>
+<h1>Web Speech API Sample</h1>
+<p>Input a message within 140 characters:<br>
+<textarea id="text" cols="35" rows="4" maxlength="140">はじめまして。</textarea></p>
+<p>
+<button id="start">Start</button>
+<button id="pause">Pause</button>
+<button id="stop">Stop</button>
+</p>
+</div>
+
+<script type="text/javascript">
+function init() {
+  // Initialize Web Speech API
+  var speechSynthesisUtterance = new SpeechSynthesisUtterance();
+  
+  // Set voice
+  window.speechSynthesis.onvoiceschanged = function () {
+    // Set voiceURL (select from following one)
+    // [0]  = native
+    // [1]  = Google Deutsch
+    // [2]  = Google US English
+    // [3]  = Google UK English Female
+    // [4]  = Google UK English Male
+    // [5]  = Google español
+    // [6]  = Google español de Estados Unidos
+    // [7]  = Google français
+    // [8]  = Google हिन्दी
+    // [9]  = Google Bahasa Indonesia
+    // [10] = Google italiano
+    // [11] = Google 日本語
+    // [12] = Google 한국의
+    // [13] = Google Nederlands
+    // [14] = Google polski
+    // [15] = Google português do Brasil
+    // [16] = Google русский
+    // [17] = Google 普通话（中国大陆）
+    // [18] = Google 粤語（香港）
+    // [19] = Google 國語（臺灣）
+    //
+    // **INPORTANT**
+    // Japanese text accepts only [11]
+    speechSynthesisUtterance.voice = window.speechSynthesis.getVoices()[11];
+  };
+  
+  // Clear the status
+  window.speechSynthesis.cancel();
+  
+  // If click "Start" button to run...
+  document.getElementById("start").addEventListener("click", function() {
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.resume();
+    } else {
+      // Obtain a speech text from a textarea
+      var text = document.getElementById("text").value;
+      
+      // Set a speech text
+      speechSynthesisUtterance.text = text;
+      
+      // Set a language (select from following one)
+      // "de-DE" (German)
+      // "en-GB" (UK English)
+      // "en-US" (US English)
+      // "es-ES" (Spanish)
+      // "fr-FR" (French)
+      // "it-IT" (Italy)
+      // "ja-JP" (Japanese)
+      // "ko-KR" (Korean)
+      // "zh-CN" (Simplified Chinese)
+      //
+      // **Hint**
+      // "ja-JP" is the best selection for Japanese text
+      speechSynthesisUtterance.lang = 'ja-JP';
+      
+      // Set a volume (0.0 to 1.0; set to 1.0 in the default)
+      speechSynthesisUtterance.volume = 1.0;
+      
+      // Set a speed (0.1 to 2.0; set to 1.0 in the default)
+      speechSynthesisUtterance.rate = 1.0;
+      
+      // Set a pitch (0.1 to 2.0; set to 1.0 in the default)
+      speechSynthesisUtterance.pitch = 1.0;
+      
+      window.speechSynthesis.speak(speechSynthesisUtterance);
+    }
+  }, false);
+  
+  // If click "Pause" button to run...
+  document.getElementById("pause").addEventListener("click", function() {
+    window.speechSynthesis.pause();
+  }, false);
+  
+  // If click "Stop" button to run...
+  document.getElementById("stop").addEventListener("click", function() {
+    window.speechSynthesis.cancel();
+  }, false);
+}
+</script>
+</body>
+</html>
