@@ -1,2 +1,2 @@
-# html5-samples
-HTML5 Samples
+# html5-examples
+HTML5 Examples
